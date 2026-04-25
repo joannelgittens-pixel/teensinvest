@@ -177,7 +177,10 @@
 
   hr.div { border: none; border-top: 0.5px solid var(--border); margin: 1rem 0; }
   .spacer { height: 1rem; }
-
+  .legend-row { display:flex; gap:16px; margin-bottom:12px; }
+  .leg { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--text2); }
+  .leg-dot { width:12px; height:4px; border-radius:2px; flex-shrink:0; }
+  .future-deposited { font-size:11px; color:var(--text2); margin-top:10px; padding-top:10px; border-top:0.5px solid var(--border); line-height:1.7; }
   .footer { text-align: center; padding: 2rem 1rem 1rem; font-size: 11px; color: var(--text3); line-height: 1.6; }
 </style>
 </head>
@@ -258,14 +261,9 @@
       <div class="m-info"><div class="m-title">First deposit</div><div class="m-sub">You started. Most people just talk about it.</div></div>
       <div class="m-reward gray">—</div>
     </div>
-    <div class="milestone locked" id="m-deploy">
-      <div class="m-icon lock">?</div>
-      <div class="m-info"><div class="m-title">First stock purchase within 45 days</div><div class="m-sub">Money in an account does nothing. Money in a stock grows. Deploy it.</div></div>
-      <div class="m-reward gray">+$10 bonus</div>
-    </div>
     <div class="milestone locked" id="m2">
       <div class="m-icon lock">?</div>
-      <div class="m-info"><div class="m-title">Reach $100 invested</div><div class="m-sub">Keep going — or add your $25 to get there faster.</div></div>
+      <div class="m-info"><div class="m-title">Bring your own $25 — 4 times (reach $100 your money)</div><div class="m-sub">Doesn't have to be in a row. Just 4 times you chose to show up with your own $25. That's the habit.</div></div>
       <div class="m-reward gray">+$10 bonus</div>
     </div>
     <div class="milestone locked" id="m3">
@@ -275,18 +273,55 @@
     </div>
     <div class="milestone locked" id="m4">
       <div class="m-icon lock">?</div>
-      <div class="m-info"><div class="m-title">Reach $250 invested</div><div class="m-sub">Quarter of a thousand dollars. Growing while you sleep.</div></div>
+      <div class="m-info"><div class="m-title">Bring your own $250 total</div><div class="m-sub">Doesn't have to be in a row. But you've now put $250 of your own money to work. That's real skin in the game.</div></div>
       <div class="m-reward gray">+$25 bonus</div>
-    </div>
-    <div class="milestone locked" id="m6">
-      <div class="m-icon lock">?</div>
-      <div class="m-info"><div class="m-title">Teach a friend or sibling</div><div class="m-sub">Explain what compound interest is. When you can teach it, you own it.</div></div>
-      <div class="m-reward gray">+$20 bonus</div>
     </div>
     <div class="milestone locked" id="m7">
       <div class="m-icon lock">?</div>
-      <div class="m-info"><div class="m-title">Reach $500 — half a grand</div><div class="m-sub">Your money is now making money every single day.</div></div>
+      <div class="m-info"><div class="m-title">Bring your own $500 total</div><div class="m-sub">Half a grand — your money, your discipline, your future. Most adults haven't done this.</div></div>
       <div class="m-reward gray">+$50 bonus</div>
+    </div>
+    <div class="milestone" id="m-teach" style="flex-direction:column;gap:8px;">
+      <div style="display:flex;align-items:flex-start;gap:10px;width:100%;">
+        <div class="m-icon lock" id="teach-icon">?</div>
+        <div class="m-info">
+          <div class="m-title">Teach a friend or sibling — up to 5 times</div>
+          <div class="m-sub">Explain what compound interest is. When you can teach it, you own it. Each person you teach earns you another bonus — up to 5 people.</div>
+        </div>
+        <div class="m-reward gray" id="teach-reward">+$20 each</div>
+      </div>
+      <div style="display:flex;gap:6px;padding-left:42px;" id="teach-dots">
+        <span id="td-0" style="width:28px;height:28px;border-radius:50%;background:var(--bg2);border:0.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;cursor:pointer;" onclick="teachOne(0)">1</span>
+        <span id="td-1" style="width:28px;height:28px;border-radius:50%;background:var(--bg2);border:0.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;cursor:pointer;" onclick="teachOne(1)">2</span>
+        <span id="td-2" style="width:28px;height:28px;border-radius:50%;background:var(--bg2);border:0.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;cursor:pointer;" onclick="teachOne(2)">3</span>
+        <span id="td-3" style="width:28px;height:28px;border-radius:50%;background:var(--bg2);border:0.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;cursor:pointer;" onclick="teachOne(3)">4</span>
+        <span id="td-4" style="width:28px;height:28px;border-radius:50%;background:var(--bg2);border:0.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;cursor:pointer;" onclick="teachOne(4)">5</span>
+        <span style="font-size:11px;color:var(--text2);align-self:center;margin-left:4px;">Tap each circle when done</span>
+      </div>
+    </div>
+    <div class="milestone locked" id="m-ws-ref">
+      <div class="m-icon lock">?</div>
+      <div class="m-info">
+        <div class="m-title">Get a friend started on Wealthsimple using your referral</div>
+        <div class="m-sub">Share your Wealthsimple referral link with a friend and they sign up. Under 18: you get 50% of the referral bonus. 18 or older: you keep the full bonus.</div>
+      </div>
+      <div class="m-reward gray">50% or full bonus</div>
+    </div>
+    <div class="milestone locked" id="m-ws-own">
+      <div class="m-icon lock">?</div>
+      <div class="m-info">
+        <div class="m-title">Open your own Wealthsimple account at 18 and invest for 3+ months</div>
+        <div class="m-sub">Once you turn 18, open your own account and invest every month for at least 3 months straight. Your money, your account, your name on it.</div>
+      </div>
+      <div class="m-reward gray">+$25 bonus</div>
+    </div>
+    <div class="milestone locked" id="m-century">
+      <div class="m-icon lock">?</div>
+      <div class="m-info">
+        <div class="m-title">Complete the Century Portfolio Investment Video Course</div>
+        <div class="m-sub">Watch the full course. Knowledge compounds too — this is the fastest return on 25 dollars you will ever get.</div>
+      </div>
+      <div class="m-reward gray">+$25 bonus</div>
     </div>
   </div>
 
@@ -407,8 +442,16 @@
   </div>
 
   <div class="future-result" id="future-result">
-    <div class="future-title">Starting at 15 vs. waiting until 25 — at $75/month, 8% return</div>
+    <div class="future-title">Starting at 16 vs. waiting until 30 — $75/month at 8% annual return</div>
+    <div style="position:relative;width:100%;height:260px;margin-bottom:1rem;">
+      <canvas id="growthChart"></canvas>
+    </div>
+    <div class="legend-row">
+      <span class="leg"><span class="leg-dot" style="background:#1D9E75;"></span>Start at 16 (you)</span>
+      <span class="leg"><span class="leg-dot" style="background:#EF9F27;border:2px dashed #EF9F27;background:none;"></span>Start at 30 (waiter)</span>
+    </div>
     <div class="future-grid" id="future-grid"></div>
+    <div class="future-deposited" id="future-deposited"></div>
   </div>
 
   <div class="spacer"></div>
@@ -425,43 +468,69 @@
 let totalInvested = 0;
 let monthsActive = 0;
 let matchMonths = 0;
+let ownMoneyCount = 0; // times they brought their own $25
+let ownMoneyTotal = 0; // total own dollars contributed
 let isMatching = false;
 let monthlyAmt = 25;
+let teachCount = 0;
 const unlockedSet = new Set();
 
 const bonusDefs = [
-  { id: 'm1',       label: 'First deposit',   amt: 0  },
-  { id: 'm-deploy', label: '45-day deploy',   amt: 10 },
-  { id: 'm2',       label: 'Reach $100',      amt: 10 },
-  { id: 'm3',       label: '3-month match',   amt: 20 },
-  { id: 'm4',       label: 'Reach $250',      amt: 25 },
-  { id: 'm6',       label: 'Teach someone',   amt: 20 },
-  { id: 'm7',       label: 'Reach $500',      amt: 50 },
+  { id: 'm1',        label: 'First deposit',        amt: 0  },
+  { id: 'm2',        label: 'Own $100 (4× $25)',    amt: 10 },
+  { id: 'm3',        label: '3-month match',        amt: 20 },
+  { id: 'm4',        label: 'Own $250 total',       amt: 25 },
+  { id: 'm7',        label: 'Own $500 total',       amt: 50 },
+  { id: 'm-teach',   label: 'Teach (×5 max)',       amt: 20, repeatable: true, max: 5 },
+  { id: 'm-ws-ref',  label: 'WS referral',          amt: 0, special: true },
+  { id: 'm-ws-own',  label: 'Own WS account',       amt: 25 },
+  { id: 'm-century', label: 'Century course',       amt: 25 },
 ];
 
 function buildBonusTally() {
   const grid = document.getElementById('bt-grid');
-  grid.innerHTML = bonusDefs.map(b => `
-    <div class="bt-box ${unlockedSet.has(b.id) && b.amt > 0 ? 'earned' : ''}">
+  grid.innerHTML = bonusDefs.map(b => {
+    if (b.repeatable) {
+      const earned = teachCount > 0;
+      const display = teachCount > 0 ? '+$' + (teachCount * b.amt) + ' (' + teachCount + '×)' : '$' + b.amt + ' each';
+      return `<div class="bt-box ${earned ? 'earned' : ''}">
+        <div class="bt-name">${b.label}</div>
+        <div class="bt-amt">${display}</div>
+      </div>`;
+    }
+    if (b.special) {
+      const earned = unlockedSet.has(b.id);
+      return `<div class="bt-box ${earned ? 'earned' : ''}">
+        <div class="bt-name">${b.label}</div>
+        <div class="bt-amt">${earned ? '✓ Bonus' : 'Referral'}</div>
+      </div>`;
+    }
+    const earned = unlockedSet.has(b.id);
+    return `<div class="bt-box ${earned && b.amt > 0 ? 'earned' : ''}">
       <div class="bt-name">${b.label}</div>
-      <div class="bt-amt">${b.amt > 0 ? (unlockedSet.has(b.id) ? '+$' + b.amt : '$' + b.amt) : '—'}</div>
-    </div>`).join('');
-  const total = bonusDefs.filter(b => unlockedSet.has(b.id)).reduce((s, b) => s + b.amt, 0);
+      <div class="bt-amt">${b.amt > 0 ? (earned ? '+$' + b.amt : '$' + b.amt) : '—'}</div>
+    </div>`;
+  }).join('');
+
+  const fixedTotal = bonusDefs.filter(b => !b.repeatable && !b.special && unlockedSet.has(b.id)).reduce((s, b) => s + b.amt, 0);
+  const teachTotal = teachCount * 20;
+  const wsTotal = unlockedSet.has('m-ws-own') ? 25 : 0;
+  const centuryTotal = unlockedSet.has('m-century') ? 25 : 0;
+  const total = fixedTotal + teachTotal + wsTotal + centuryTotal;
   document.getElementById('bt-total').textContent = '$' + total;
-  const earned = bonusDefs.filter(b => unlockedSet.has(b.id) && b.amt > 0).length;
-  const possible = bonusDefs.filter(b => b.amt > 0).length;
-  document.getElementById('bt-sub').textContent = earned === 0
+
+  const earnedCount = bonusDefs.filter(b => !b.repeatable && !b.special && unlockedSet.has(b.id) && b.amt > 0).length
+    + (teachCount > 0 ? 1 : 0);
+  const possible = bonusDefs.filter(b => b.amt > 0 || b.repeatable).length;
+  document.getElementById('bt-sub').textContent = total === 0
     ? 'Complete milestones to unlock bonus cash.'
-    : earned + ' of ' + possible + ' bonuses earned. Keep going!';
+    : '$' + total + ' earned so far. Keep going!';
 }
 
 function updateCashCalc() {
   const val = parseFloat(document.getElementById('portfolio-val').value) || 0;
   const res = document.getElementById('cm-result');
-  if (!val || val <= 0) {
-    res.innerHTML = 'Enter your total portfolio value above to see your cash limit.';
-    return;
-  }
+  if (!val || val <= 0) { res.innerHTML = 'Enter your total portfolio value above to see your cash limit.'; return; }
   const limit = (val * 0.4).toFixed(2);
   const mustInvest = (val * 0.6).toFixed(2);
   res.innerHTML = `Keep your cash under <strong>$${limit}</strong> (40% of $${parseFloat(val).toLocaleString('en-CA', {minimumFractionDigits:2,maximumFractionDigits:2})}).<br><span style="font-size:11px;opacity:0.85;">At least <strong>$${mustInvest}</strong> must be in stocks right now.</span>`;
@@ -478,23 +547,39 @@ function setMatch(yes) {
   const amtLabel = document.getElementById('extra-out');
   const hint = document.getElementById('deploy-hint');
   if (yes) {
-    slider.disabled = false;
-    label.className = 'deploy-label';
-    amtLabel.className = 'dep-amt';
-    hint.style.display = 'none';
+    slider.disabled = false; label.className = 'deploy-label'; amtLabel.className = 'dep-amt'; hint.style.display = 'none';
   } else {
-    slider.disabled = true;
-    slider.value = 0;
-    amtLabel.textContent = '$0';
-    label.className = 'deploy-label muted';
-    amtLabel.className = 'dep-amt muted';
-    hint.style.display = 'block';
+    slider.disabled = true; slider.value = 0; amtLabel.textContent = '$0';
+    label.className = 'deploy-label muted'; amtLabel.className = 'dep-amt muted'; hint.style.display = 'block';
   }
 }
 
 document.getElementById('extra-slider').addEventListener('input', function() {
   document.getElementById('extra-out').textContent = '$' + this.value;
 });
+
+function teachOne(idx) {
+  if (idx < teachCount || teachCount >= 5) return;
+  teachCount = idx + 1;
+  for (let i = 0; i < 5; i++) {
+    const dot = document.getElementById('td-' + i);
+    if (i < teachCount) {
+      dot.style.background = 'var(--green-bg)'; dot.style.borderColor = 'var(--green)'; dot.style.color = 'var(--green-dark)'; dot.textContent = '★';
+    } else {
+      dot.style.background = 'var(--bg2)'; dot.style.borderColor = 'var(--border)'; dot.style.color = 'var(--text2)'; dot.textContent = i + 1;
+    }
+  }
+  const el = document.getElementById('m-teach');
+  el.className = 'milestone unlocked';
+  el.style.flexDirection = 'column';
+  el.style.gap = '8px';
+  document.getElementById('teach-icon').textContent = teachCount >= 5 ? '★' : teachCount + '/5';
+  document.getElementById('teach-icon').className = 'm-icon done';
+  document.getElementById('teach-icon').style.fontSize = teachCount >= 5 ? '13px' : '10px';
+  document.getElementById('teach-reward').textContent = '+$' + (teachCount * 20) + ' earned!';
+  document.getElementById('teach-reward').className = 'm-reward';
+  buildBonusTally();
+}
 
 function unlockMilestone(id) {
   const el = document.getElementById(id);
@@ -505,7 +590,7 @@ function unlockMilestone(id) {
   el.querySelector('.m-icon').className = 'm-icon done';
   const r = el.querySelector('.m-reward');
   const def = bonusDefs.find(b => b.id === id);
-  r.textContent = def && def.amt > 0 ? '+$' + def.amt + ' earned!' : 'Unlocked';
+  r.textContent = def && def.amt > 0 ? '+$' + def.amt + ' earned!' : def && def.special ? 'Bonus unlocked!' : 'Unlocked';
   r.className = 'm-reward';
   buildBonusTally();
 }
@@ -514,6 +599,7 @@ function activateMilestone(id, label) {
   const el = document.getElementById(id);
   if (!el || unlockedSet.has(id)) return;
   el.className = 'milestone';
+  if (id === 'm-teach') { el.style.flexDirection = 'column'; el.style.gap = '8px'; }
   const icon = el.querySelector('.m-icon');
   icon.textContent = label || '→';
   icon.className = 'm-icon next';
@@ -524,7 +610,11 @@ function addMonth() {
   const extra = isMatching ? parseInt(document.getElementById('extra-slider').value) : 0;
   totalInvested += monthlyAmt + extra;
   monthsActive += 1;
-  if (isMatching) matchMonths += 1;
+  if (isMatching) {
+    matchMonths += 1;
+    ownMoneyCount += 1;
+    ownMoneyTotal += 25;
+  }
   updateUI();
 }
 
@@ -532,24 +622,28 @@ function updateUI() {
   document.getElementById('total-invested').textContent = '$' + totalInvested;
   document.getElementById('months-active').textContent = monthsActive;
   document.getElementById('this-month').textContent = '$' + monthlyAmt;
+
+  // Progress bar based on own money thresholds
   const thresholds = [100, 250, 500];
-  let next = thresholds.find(t => totalInvested < t) || 500;
-  document.getElementById('next-bonus').textContent = totalInvested >= 500 ? 'Done!' : '$' + next;
+  let next = thresholds.find(t => ownMoneyTotal < t) || 500;
+  document.getElementById('next-bonus').textContent = ownMoneyTotal >= 500 ? 'Done!' : '$' + next + ' own';
   let prev = next === 100 ? 0 : next === 250 ? 100 : 250;
-  let pct = totalInvested <= 0 ? 0 : totalInvested >= 500 ? 100 : Math.min(100, Math.round(((totalInvested - prev) / (next - prev)) * 100));
+  let pct = ownMoneyTotal <= 0 ? 0 : ownMoneyTotal >= 500 ? 100 : Math.min(100, Math.round(((ownMoneyTotal - prev) / (next - prev)) * 100));
   document.getElementById('pbar').style.width = pct + '%';
   document.getElementById('pl-left').textContent = '$' + prev;
-  document.getElementById('pl-right').textContent = '$' + (totalInvested >= 500 ? 500 : next);
-  document.getElementById('pl-mid').textContent = '$' + totalInvested + ' of $' + (totalInvested >= 500 ? 500 : next);
+  document.getElementById('pl-right').textContent = '$' + (ownMoneyTotal >= 500 ? 500 : next);
+  document.getElementById('pl-mid').textContent = 'Your $' + ownMoneyTotal + ' of $' + (ownMoneyTotal >= 500 ? 500 : next) + ' own money';
+
   if (monthsActive >= 1) unlockMilestone('m1');
-  if (monthsActive >= 2) unlockMilestone('m-deploy');
-  if (totalInvested >= 100) unlockMilestone('m2');
+  if (ownMoneyCount >= 4) unlockMilestone('m2');
+  else if (ownMoneyCount >= 1) activateMilestone('m2', ownMoneyCount + '/4');
   if (matchMonths >= 3) unlockMilestone('m3');
   else if (matchMonths >= 1) activateMilestone('m3', matchMonths + '/3');
-  if (totalInvested >= 250) unlockMilestone('m4');
-  else if (totalInvested >= 100) activateMilestone('m4');
-  if (totalInvested >= 500) unlockMilestone('m7');
-  else if (totalInvested >= 250) activateMilestone('m7');
+  if (ownMoneyTotal >= 250) unlockMilestone('m4');
+  else if (ownMoneyTotal >= 100) activateMilestone('m4');
+  if (ownMoneyTotal >= 500) unlockMilestone('m7');
+  else if (ownMoneyTotal >= 250) activateMilestone('m7');
+  if (teachCount === 0) activateMilestone('m-teach');
 }
 
 function fmtK(n) {
@@ -565,21 +659,106 @@ function calcPortfolio(monthly, rate, startAge, targetAge) {
   return Math.round(monthly * ((Math.pow(1 + r, n) - 1) / r) * (1 + r));
 }
 
+let chartInstance = null;
+
 function calcFuture() {
   const monthly = 75, rate = 8;
-  const milestones = [20, 30, 40, 65];
+  const milestoneAges = [20, 30, 40, 50, 65];
+  const ageRange = [];
+  for (let a = 16; a <= 65; a++) ageRange.push(a);
+
+  function calcAt(startAge, targetAge) {
+    if (targetAge < startAge) return 0;
+    const r = rate / 100 / 12;
+    const n = (targetAge - startAge) * 12;
+    return Math.round(monthly * ((Math.pow(1 + r, n) - 1) / r) * (1 + r));
+  }
+
+  const earlyData = ageRange.map(a => calcAt(16, a));
+  const lateData  = ageRange.map(a => calcAt(30, a));
+
+  const canvas = document.getElementById('growthChart');
+  if (chartInstance) chartInstance.destroy();
+
+  const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const gridColor = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
+  const tickColor = isDark ? '#a0a09a' : '#6b6b67';
+
+  chartInstance = new Chart(canvas, {
+    type: 'line',
+    data: {
+      labels: ageRange,
+      datasets: [
+        {
+          label: 'Start at 16',
+          data: earlyData,
+          borderColor: '#1D9E75',
+          backgroundColor: 'rgba(29,158,117,0.08)',
+          fill: true,
+          borderWidth: 2.5,
+          pointRadius: 0,
+          tension: 0.35
+        },
+        {
+          label: 'Start at 30',
+          data: lateData,
+          borderColor: '#EF9F27',
+          backgroundColor: 'transparent',
+          borderWidth: 2,
+          borderDash: [6, 4],
+          pointRadius: 0,
+          tension: 0.35
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ctx.dataset.label + ': ' + fmtK(ctx.parsed.y)
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: tickColor, font: { size: 10 }, maxTicksLimit: 11 },
+          grid: { color: gridColor },
+          title: { display: true, text: 'Age', color: tickColor, font: { size: 10 } }
+        },
+        y: {
+          ticks: { color: tickColor, font: { size: 10 }, callback: v => fmtK(v) },
+          grid: { color: gridColor }
+        }
+      }
+    }
+  });
+
+  // Milestone boxes
   const grid = document.getElementById('future-grid');
-  grid.innerHTML = milestones.map(age => {
-    const early = calcPortfolio(monthly, rate, 15, age);
-    const late = calcPortfolio(monthly, rate, 25, age);
-    const diff = early - late;
+  grid.innerHTML = milestoneAges.map(age => {
+    const early = calcAt(16, age);
+    const late  = calcAt(30, age);
+    const diff  = early - late;
     return `<div class="future-card">
       <div class="future-age">Age ${age}</div>
       <div class="future-early">${fmtK(early)}</div>
-      <div class="future-late">${age < 25 ? 'Waiter: not started' : 'Waiter: ' + fmtK(late)}</div>
+      <div class="future-late">${age < 30 ? 'Waiter: not started' : 'Waiter: ' + fmtK(late)}</div>
       ${diff > 0 ? '<div class="future-gap">+' + fmtK(diff) + ' more</div>' : ''}
     </div>`;
   }).join('');
+
+  const dep16 = (monthly * (65 - 16) * 12).toLocaleString('en-CA');
+  const dep30 = (monthly * (65 - 30) * 12).toLocaleString('en-CA');
+  const val16 = fmtK(calcAt(16, 65));
+  const val30 = fmtK(calcAt(30, 65));
+  document.getElementById('future-deposited').innerHTML =
+    `Start at 16: deposit <strong>$${dep16}</strong> → grow to <strong>${val16}</strong><br>
+     Start at 30: deposit <strong>$${dep30}</strong> → grow to <strong>${val30}</strong><br>
+     <span style="color:var(--green-mid);font-weight:500;">Everything above what you deposited is compound interest. That gap is 14 years of time you can't buy back.</span>`;
+
   document.getElementById('future-result').className = 'future-result visible';
 }
 
@@ -595,5 +774,6 @@ buildBonusTally();
 setMatch(false);
 updateUI();
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 </body>
 </html>
