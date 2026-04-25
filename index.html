@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Your Money. Your Future. Your Call.</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #ffffff;
+    --bg2: #f5f5f3;
+    --bg3: #efefed;
+    --text: #1a1a18;
+    --text2: #6b6b67;
+    --text3: #9a9a96;
+    --border: rgba(0,0,0,0.12);
+    --border2: rgba(0,0,0,0.22);
+    --radius: 8px;
+    --radius-lg: 12px;
+    --green: #1D9E75;
+    --green-dark: #085041;
+    --green-bg: #E1F5EE;
+    --green-mid: #0F6E56;
+    --green-deep: #27500A;
+    --green-pale: #EAF3DE;
+    --green-border: #C0DD97;
+    --amber-bg: #FAEEDA;
+    --amber-text: #633806;
+    --amber-mid: #854F0B;
+    --amber-border: #FAC775;
+    --blue-bg: #E6F1FB;
+    --blue-text: #185FA5;
+    --blue-dark: #0C447C;
+    --purple-bg: #EEEDFE;
+    --purple-text: #3C3489;
+    --coral-bg: #FAECE7;
+    --coral-text: #712B13;
+    --pink-bg: #FBEAF0;
+    --pink-text: #72243E;
+    --red-bg: #FCEBEB;
+    --red-text: #791F1F;
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1a;
+      --bg2: #252523;
+      --bg3: #2e2e2b;
+      --text: #f0efe8;
+      --text2: #a0a09a;
+      --text3: #6a6a66;
+      --border: rgba(255,255,255,0.1);
+      --border2: rgba(255,255,255,0.2);
+    }
+  }
+  body { font-family: var(--font); background: var(--bg3); color: var(--text); min-height: 100vh; padding: 0 0 3rem; }
+  .container { max-width: 680px; margin: 0 auto; padding: 0 1rem; }
+
+  .hero { padding: 2rem 1.5rem 1rem; text-align: center; }
+  .hero h1 { font-size: 22px; font-weight: 500; color: var(--text); margin-bottom: 8px; }
+  .hero p { font-size: 14px; color: var(--text2); max-width: 520px; margin: 0 auto; line-height: 1.6; }
+
+  .card { background: var(--bg); border-radius: var(--radius-lg); border: 0.5px solid var(--border); padding: 14px 16px; margin: 1rem 0 0; }
+  .card-green { background: var(--green-pale); border: 0.5px solid var(--green-border); }
+  .card-amber { background: var(--amber-bg); border: 0.5px solid var(--amber-border); }
+
+  .section-title { font-size: 11px; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 10px; }
+
+  .match-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .match-cell { background: var(--bg); border-radius: var(--radius); padding: 10px 8px; text-align: center; border: 0.5px solid var(--green-border); }
+  .mc-label { font-size: 11px; color: var(--green-mid); margin-bottom: 3px; }
+  .mc-val { font-size: 17px; font-weight: 500; color: var(--green-deep); }
+  .mc-sub { font-size: 10px; color: var(--green-mid); margin-top: 2px; }
+
+  .rules-row { display: flex; gap: 8px; }
+  .rule-pill { flex: 1; background: var(--bg); border: 0.5px solid var(--amber-border); border-radius: var(--radius); padding: 10px; }
+  .rp-head { font-size: 12px; font-weight: 500; color: var(--amber-text); }
+  .rp-body { font-size: 11px; color: var(--amber-mid); margin-top: 3px; line-height: 1.4; }
+
+  .cm-input-row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
+  .cm-input-row label { font-size: 13px; color: var(--text2); white-space: nowrap; }
+  .cm-input-row input { width: 120px; padding: 7px 10px; font-size: 14px; font-weight: 500; border: 0.5px solid var(--border2); border-radius: var(--radius); background: var(--bg2); color: var(--text); font-family: var(--font); }
+  .cm-result { border-radius: var(--radius); padding: 11px 13px; font-size: 13px; line-height: 1.6; background: var(--green-pale); color: var(--green-deep); }
+  .cm-result strong { font-weight: 500; }
+
+  .toggle-wrap { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; padding: 1rem 0 0; }
+  .toggle-label { font-size: 13px; color: var(--text2); }
+  .toggle-btn { padding: 7px 15px; font-size: 13px; border-radius: 20px; cursor: pointer; border: 0.5px solid var(--border2); background: var(--bg2); color: var(--text2); font-family: var(--font); transition: all 0.15s; }
+  .toggle-btn.active { background: var(--green-deep); color: var(--green-border); border-color: var(--green-deep); }
+
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 1rem; }
+  .stat { background: var(--bg2); border-radius: var(--radius); padding: 12px 10px; text-align: center; }
+  .stat-label { font-size: 11px; color: var(--text2); margin-bottom: 3px; }
+  .stat-value { font-size: 18px; font-weight: 500; color: var(--text); }
+  .stat-value.green { color: var(--green); }
+
+  .progress-wrap { margin-top: 1rem; }
+  .progress-bar-outer { background: var(--bg2); border-radius: 20px; height: 10px; overflow: hidden; }
+  .progress-bar-inner { height: 100%; border-radius: 20px; background: var(--green); transition: width 0.4s ease; }
+  .progress-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--text2); margin-top: 4px; }
+
+  .deploy-row { margin-top: 1rem; }
+  .deploy-label { font-size: 13px; color: var(--text2); margin-bottom: 6px; }
+  .deploy-label.muted { opacity: 0.4; }
+  .deploy-controls { display: flex; gap: 8px; align-items: center; }
+  .deploy-controls input[type=range] { flex: 1; cursor: pointer; accent-color: var(--green); }
+  .deploy-controls input[type=range]:disabled { opacity: 0.25; cursor: not-allowed; }
+  .dep-amt { font-size: 15px; font-weight: 500; color: var(--text); min-width: 36px; }
+  .dep-amt.muted { opacity: 0.3; }
+  .add-btn { padding: 9px 16px; font-size: 13px; cursor: pointer; border: 0.5px solid var(--border2); border-radius: var(--radius); background: var(--bg2); color: var(--text); font-family: var(--font); }
+  .add-btn:hover { background: var(--bg3); }
+  .deploy-hint { font-size: 11px; color: var(--amber-mid); margin-top: 6px; background: var(--amber-bg); border-radius: var(--radius); padding: 6px 10px; display: none; }
+
+  .milestone-list { display: flex; flex-direction: column; gap: 7px; }
+  .milestone { display: flex; align-items: flex-start; gap: 10px; background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 11px 13px; }
+  .milestone.unlocked { border-color: var(--green); }
+  .milestone.locked { opacity: 0.42; }
+  .m-icon { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; margin-top: 1px; }
+  .m-icon.done { background: var(--green-bg); color: var(--green-dark); }
+  .m-icon.next { background: var(--blue-bg); color: var(--blue-text); }
+  .m-icon.lock { background: var(--bg2); color: var(--text3); }
+  .m-info { flex: 1; min-width: 0; }
+  .m-title { font-size: 13px; font-weight: 500; color: var(--text); }
+  .m-sub { font-size: 11px; color: var(--text2); margin-top: 3px; line-height: 1.5; }
+  .m-reward { font-size: 11px; font-weight: 500; background: var(--green-bg); color: var(--green-mid); padding: 3px 9px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
+  .m-reward.gray { background: var(--bg2); color: var(--text2); }
+
+  .bonus-tally { background: var(--bg); border: 2px solid var(--green); border-radius: var(--radius-lg); padding: 16px; margin-top: 1rem; }
+  .bt-title { font-size: 14px; font-weight: 500; color: var(--green-dark); margin-bottom: 12px; line-height: 1.4; }
+  .bt-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
+  .bt-box { background: var(--bg2); border-radius: var(--radius); padding: 10px 8px; text-align: center; border: 0.5px solid var(--border); }
+  .bt-box.earned { background: var(--green-bg); border-color: #5DCAA5; }
+  .bt-name { font-size: 10px; color: var(--text2); margin-bottom: 4px; line-height: 1.3; }
+  .bt-box.earned .bt-name { color: var(--green-mid); }
+  .bt-amt { font-size: 15px; font-weight: 500; color: var(--text3); }
+  .bt-box.earned .bt-amt { color: var(--green-dark); }
+  .bt-total-row { display: flex; justify-content: space-between; align-items: center; border-top: 0.5px solid #9FE1CB; padding-top: 12px; }
+  .bt-total-label { font-size: 13px; color: var(--green-mid); }
+  .bt-total-val { font-size: 26px; font-weight: 500; color: var(--green-dark); }
+  .bt-sub { font-size: 11px; color: var(--green); margin-top: 3px; }
+
+  .stock-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+  .stock-header { display: flex; border-bottom: 0.5px solid var(--border); }
+  .stock-tab { flex: 1; padding: 10px 4px; text-align: center; font-size: 12px; cursor: pointer; border-bottom: 2px solid transparent; color: var(--text2); margin-bottom: -0.5px; font-family: var(--font); background: none; border-top: none; border-left: none; border-right: none; }
+  .stock-tab.active { color: var(--text); border-bottom: 2px solid var(--green); font-weight: 500; }
+  .stock-content { display: none; }
+  .stock-content.active { display: block; }
+  .stock-row { display: flex; align-items: center; gap: 10px; padding: 11px 14px; border-bottom: 0.5px solid var(--border); cursor: pointer; text-decoration: none; }
+  .stock-row:last-child { border-bottom: none; }
+  .stock-row:hover { background: var(--bg2); }
+  .stock-logo { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 500; flex-shrink: 0; }
+  .stock-info { flex: 1; min-width: 0; }
+  .stock-name { font-size: 13px; font-weight: 500; color: var(--text); }
+  .stock-why { font-size: 11px; color: var(--text2); margin-top: 1px; }
+  .stock-right { text-align: right; flex-shrink: 0; }
+  .stock-ticker { font-size: 10px; color: var(--text2); }
+  .stock-tag { font-size: 10px; font-weight: 500; padding: 2px 7px; border-radius: 20px; margin-top: 2px; display: inline-block; }
+  .tag-growth { background: var(--blue-bg); color: var(--blue-text); }
+  .tag-dividend { background: var(--green-pale); color: var(--green-deep); }
+  .tag-index { background: var(--purple-bg); color: var(--purple-text); }
+  .tag-canada { background: var(--amber-bg); color: var(--amber-text); }
+
+  .cta-strip { background: var(--green-pale); border-radius: var(--radius-lg); padding: 14px 16px; margin-top: 1rem; display: flex; align-items: center; gap: 12px; }
+  .cta-text { flex: 1; font-size: 13px; color: var(--green-deep); font-weight: 500; }
+  .cta-text span { display: block; font-size: 11px; font-weight: 400; color: var(--green); margin-top: 2px; }
+  .cta-btn { padding: 9px 15px; background: var(--green-deep); color: var(--green-border); border: none; border-radius: var(--radius); font-size: 13px; font-weight: 500; cursor: pointer; font-family: var(--font); white-space: nowrap; }
+
+  .future-result { margin-top: 1rem; background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 16px; display: none; }
+  .future-result.visible { display: block; }
+  .future-title { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 12px; }
+  .future-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .future-card { background: var(--bg2); border-radius: var(--radius); padding: 12px; }
+  .future-age { font-size: 11px; color: var(--text2); margin-bottom: 4px; }
+  .future-early { font-size: 17px; font-weight: 500; color: var(--green); }
+  .future-late { font-size: 12px; color: var(--text2); margin-top: 2px; }
+  .future-gap { font-size: 10px; color: var(--green-mid); margin-top: 4px; font-weight: 500; }
+
+  hr.div { border: none; border-top: 0.5px solid var(--border); margin: 1rem 0; }
+  .spacer { height: 1rem; }
+
+  .footer { text-align: center; padding: 2rem 1rem 1rem; font-size: 11px; color: var(--text3); line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="hero">
+    <h1>Your money. Your future. Your call.</h1>
+    <p>Auntie puts in $25 every month. You add your own $25 — she doubles it to $50. That's $75 a month working for you. But cash sitting idle loses. You must deploy it.</p>
+  </div>
+
+  <div class="card card-green">
+    <div class="section-title" style="color:var(--green-deep);">How the match works</div>
+    <div class="match-grid">
+      <div class="match-cell"><div class="mc-label">Auntie's base</div><div class="mc-val">$25</div><div class="mc-sub">always, no strings</div></div>
+      <div class="match-cell"><div class="mc-label">Your add-in</div><div class="mc-val">$25</div><div class="mc-sub">your choice</div></div>
+      <div class="match-cell"><div class="mc-label">With match</div><div class="mc-val" style="color:var(--green);">$75</div><div class="mc-sub">$25 + $50 matched</div></div>
+    </div>
+  </div>
+
+  <div class="card card-amber">
+    <div class="section-title" style="color:var(--amber-text);">The two rules you must follow</div>
+    <div class="rules-row">
+      <div class="rule-pill">
+        <div class="rp-head">45-day deploy rule</div>
+        <div class="rp-body">Money must be invested in stocks within 45 days of arriving in your account. No sitting on it.</div>
+      </div>
+      <div class="rule-pill">
+        <div class="rp-head">40% cash limit</div>
+        <div class="rp-body">No more than 40% of your portfolio can sit in cash at any time. Idle money is wasted money.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Cash position checker</div>
+    <div class="cm-input-row">
+      <label>Total portfolio value ($):</label>
+      <input type="number" id="portfolio-val" min="0" placeholder="e.g. 200" oninput="updateCashCalc()" />
+    </div>
+    <div class="cm-result" id="cm-result">Enter your total portfolio value above to see your cash limit.</div>
+  </div>
+
+  <div class="toggle-wrap">
+    <span class="toggle-label">This month I'm adding:</span>
+    <button class="toggle-btn active" id="btn-no" onclick="setMatch(false)">Just Auntie's $25</button>
+    <button class="toggle-btn" id="btn-yes" onclick="setMatch(true)">My $25 + Auntie's match</button>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat"><div class="stat-label">Total invested</div><div class="stat-value green" id="total-invested">$0</div></div>
+    <div class="stat"><div class="stat-label">Months active</div><div class="stat-value" id="months-active">0</div></div>
+    <div class="stat"><div class="stat-label">This month</div><div class="stat-value" id="this-month">$25</div></div>
+    <div class="stat"><div class="stat-label">Next bonus at</div><div class="stat-value" id="next-bonus">$100</div></div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-bar-outer"><div class="progress-bar-inner" id="pbar" style="width:0%"></div></div>
+    <div class="progress-labels"><span id="pl-left">$0</span><span id="pl-mid">$0 of $100 to next milestone</span><span id="pl-right">$100</span></div>
+  </div>
+
+  <div class="deploy-row">
+    <div class="deploy-label muted" id="extra-label">Extra this month (above your $25):</div>
+    <div class="deploy-controls">
+      <input type="range" min="0" max="75" step="25" value="0" id="extra-slider" disabled />
+      <span class="dep-amt muted" id="extra-out">$0</span>
+      <button class="add-btn" onclick="addMonth()">Add month ↗</button>
+    </div>
+    <div class="deploy-hint" id="deploy-hint">Choose "My $25 + Auntie's match" above to unlock extra contributions.</div>
+  </div>
+
+  <hr class="div" />
+
+  <div class="section-title">Challenge milestones</div>
+  <div class="milestone-list">
+    <div class="milestone locked" id="m1">
+      <div class="m-icon lock">→</div>
+      <div class="m-info"><div class="m-title">First deposit</div><div class="m-sub">You started. Most people just talk about it.</div></div>
+      <div class="m-reward gray">—</div>
+    </div>
+    <div class="milestone locked" id="m-deploy">
+      <div class="m-icon lock">?</div>
+      <div class="m-info"><div class="m-title">First stock purchase within 45 days</div><div class="m-sub">Money in an account does nothing. Money in a stock grows. Deploy it.</div></div>
+      <div class="m-reward gray">+$10 bonus</div>
+    </div>
+    <div class="milestone locked" id="m2">
+      <div class="m-icon lock">?</div>
+      <div class="m-info"><div class="m-title">Reach $100 invested</div><div class="m-sub">Keep going — or add your $25 to get there faster.</div></div>
+      <div class="m-reward gray">+$10 bonus</div>
+    </div>
+    <div class="milestone locked" id="m3">
+      <div class="m-icon lock">?</div>
+      <div class="m-info"><div class="m-title">Match for 3 months straight</div><div class="m-sub">Bring your own $25 three months in a row. Discipline beats talent every time.</div></div>
+      <div class="m-reward gray">+$20 bonus</div>
+    </div>
+    <div class="milestone locked" id="m4">
+      <div class="m-icon lock">?</div>
+      <div class="m-info"><div class="m-title">Reach $250 invested</div><div class="m-sub">Quarter of a thousand dollars. Growing while you sleep.</div></div>
+      <div class="m-reward gray">+$25 bonus</div>
+    </div>
+    <div class="milestone locked" id="m6">
+      <div class="m-icon lock">?</div>
+      <div class="m-info"><div class="m-title">Teach a friend or sibling</div><div class="m-sub">Explain what compound interest is. When you can teach it, you own it.</div></div>
+      <div class="m-reward gray">+$20 bonus</div>
+    </div>
+    <div class="milestone locked" id="m7">
+      <div class="m-icon lock">?</div>
+      <div class="m-info"><div class="m-title">Reach $500 — half a grand</div><div class="m-sub">Your money is now making money every single day.</div></div>
+      <div class="m-reward gray">+$50 bonus</div>
+    </div>
+  </div>
+
+  <div class="bonus-tally">
+    <div class="bt-title">Cash in your hand to date — because you chose to be disciplined</div>
+    <div class="bt-grid" id="bt-grid"></div>
+    <div class="bt-total-row">
+      <div>
+        <div class="bt-total-label">Total bonus cash earned</div>
+        <div class="bt-sub" id="bt-sub">Complete milestones to unlock bonus cash.</div>
+      </div>
+      <div class="bt-total-val" id="bt-total">$0</div>
+    </div>
+  </div>
+
+  <hr class="div" />
+
+  <div class="section-title">Pick your stocks</div>
+  <div class="stock-card">
+    <div class="stock-header">
+      <button class="stock-tab active" onclick="switchTab('safe')">Safe picks</button>
+      <button class="stock-tab" onclick="switchTab('brands')">Brands you use</button>
+      <button class="stock-tab" onclick="switchTab('canada')">Canadian</button>
+    </div>
+    <div class="stock-content active" id="tab-safe">
+      <a class="stock-row" href="https://finance.yahoo.com/quote/VOO" target="_blank" rel="noopener">
+        <div class="stock-logo" style="background:var(--purple-bg);color:var(--purple-text);">VOO</div>
+        <div class="stock-info"><div class="stock-name">S&P 500 Index (VOO)</div><div class="stock-why">500 companies in one. The safest bet in investing history.</div></div>
+        <div class="stock-right"><div class="stock-ticker">ETF</div><div class="stock-tag tag-index">Index</div></div>
+      </a>
+      <a class="stock-row" href="https://finance.yahoo.com/quote/QQQ" target="_blank" rel="noopener">
+        <div class="stock-logo" style="background:var(--blue-bg);color:var(--blue-text);">QQQ</div>
+        <div class="stock-info"><div class="stock-name">Nasdaq 100 (QQQ)</div><div class="stock-why">Top 100 tech companies — Apple, Google, Meta, Amazon, all at once.</div></div>
+        <div class="stock-right"><div class="stock-ticker">ETF</div><div class="stock-tag tag-index">Index</div></div>
+      </a>
+      <a class="stock-row" href="https://finance.yahoo.com/quote/JNJ" target="_blank" rel="noopener">
+        <div class="stock-logo" style="background:var(--green-pale);color:var(--green-deep);">JNJ</div>
+        <div class="stock-info"><div class="stock-name">Johnson &amp; Johnson</div><div class="stock-why">60+ years of paying dividends. They pay you just to hold it.</div></div>
+        <div class="stock-right"><div class="stock-ticker">NYSE</div><div class="stock-tag tag-dividend">Dividend</div></div>
+      </a>
+      <a class="stock-row" href="https://finance.yahoo.com/quote/BRK-B" target="_blank" rel="noopener">
+        <div class="stock-logo" style="background:var(--amber-bg);color:var(--amber-text);">BRK</div>
+        <div class="stock-info"><div class="stock-name">Berkshire Hathaway B</div><div class="stock-why">Warren Buffett's company. You buy it — he runs it for you.</div></div>
+        <div class="stock-right"><div class="stock-ticker">NYSE</div><div class="stock-tag tag-growth">Growth</div></div>
+      </a>
+      <a class="stock-row" href="https://finance.yahoo.com/quote/VNQ" target="_blank" rel="noopener">
+        <div class="stock-logo" style="background:var(--pink-bg);color:var(--pink-text);">VNQ</div>
+        <div class="stock-info"><div class="stock-name">Real estate index (VNQ)</div><div class="stock-why">Own a slice of thousands of buildings. Earn rent without a mortgage.</div></div>
+        <div class="stock-right"><div class="stock-ticker">ETF</div><div class="stock-tag tag-dividend">Dividend</div></div>
+      </a>
+    </div>
+    <div class="stock-content" id="tab-brands">
+      <a class="stock-row" href="https://finance.yahoo.com/quote/META" target="_blank" rel="noopener">
+        <div class="stock-logo" style="background:var(--blue-bg);color:var(--blue-dark);">META</div>
+        <div class="stock-info"><div class="stock-name">Meta (Instagram, WhatsApp, Ray-Ban glasses)</div><div class="stock-why">You're on Instagram right now. The company behind it is printing money.</div></div>
+        <div class="stock-right"><div class="stock-ticker">NASDAQ</div><div class="stock-tag tag-growth">Growth</div></div>
+      </a>
+      <a class="stock-row" href="https://finance.yahoo.com/quote/AAPL" target="_blank" rel="noopener">
+        <div class="stock-logo" style="background:#F1EFE8;color:#444441;">AAPL</div>
+        <div class="stock-info"><div class="stock-name">Apple</div><div class="stock-why">The phone in your hand. Now own a piece of the company that made it.</div></div>
+        <div class="stock-right"><div class="stock-ticker">NASDAQ</div><div class="stock-tag tag-growth">Growth</div></div>
+      </a>
+      <a class="stock-row" href="https://finance.yahoo.com/quote/MCD" target="_blank" rel="noopener">
+        <div class="stock-logo" style="background:var(--amber-bg);color:var(--amber-mid);">MCD</div>
+        <div class="stock-info"><div class="stock-name">McDonald's</div><div class="stock-why">Every Big Mac you buy makes shareholders money. Now be a shareholder.</div></div>
+        <div class="stock-right"><div class="stock-ticker">NYSE</div><div class="stock-tag tag-dividend">Dividend</div></div>
+      </a>
+      <a class="stock-row" href="https://finance.yahoo.com/quote/NKE" target="_blank" rel="noopener">
+        <div class="stock-logo" style="background:var(--coral-bg);color:var(--coral-text);">NKE</div>
+        <div class="stock-info"><div class="stock-name">Nike</div><div class="stock-why">The shoes on your feet. The brand never goes out of style.</div></div>
+        <div class="stock-right"><div class="stock-ticker">NYSE</div><div class="stock-tag tag-growth">Growth</div></div>
+      </a>
+      <a class="stock-row" href="https://finance.yahoo.com/quote/SONY" target="_blank" rel="noopener">
+        <div class="stock-logo" style="background:#F1EFE8;color:#2C2C2A;">SONY</div>
+        <div class="stock-info"><div class="stock-name">Sony (PlayStation, Spider-Man, Sony Music)</div><div class="stock-why">PS5, blockbuster movies, music streaming — one stock owns it all.</div></div>
+        <div class="stock-right"><div class="stock-ticker">NYSE</div><div class="stock-tag tag-growth">Growth</div></div>
+      </a>
+      <a class="stock-row" href="https://finance.yahoo.com/quote/MSFT" target="_blank" rel="noopener">
+        <div class="stock-logo" style="background:var(--blue-bg);color:var(--blue-text);">MSFT</div>
+        <div class="stock-info"><div class="stock-name">Microsoft (Xbox, Minecraft, ChatGPT partner)</div><div class="stock-why">Xbox. Minecraft. The cloud. AI. One company runs all of it.</div></div>
+        <div class="stock-right"><div class="stock-ticker">NASDAQ</div><div class="stock-tag tag-growth">Growth</div></div>
+      </a>
+    </div>
+    <div class="stock-content" id="tab-canada">
+      <a class="stock-row" href="https://finance.yahoo.com/quote/SHOP.TO" target="_blank" rel="noopener">
+        <div class="stock-logo" style="background:var(--green-bg);color:var(--green-dark);">SHOP</div>
+        <div class="stock-info"><div class="stock-name">Shopify</div><div class="stock-why">Born in Ottawa. Powers millions of online stores worldwide.</div></div>
+        <div class="stock-right"><div class="stock-ticker">TSX</div><div class="stock-tag tag-canada">Canadian</div></div>
+      </a>
+      <a class="stock-row" href="https://finance.yahoo.com/quote/RY.TO" target="_blank" rel="noopener">
+        <div class="stock-logo" style="background:var(--red-bg);color:var(--red-text);">RY</div>
+        <div class="stock-info"><div class="stock-name">Royal Bank of Canada</div><div class="stock-why">Canada's biggest bank. Pays you dividends quarterly just for holding it.</div></div>
+        <div class="stock-right"><div class="stock-ticker">TSX</div><div class="stock-tag tag-dividend">Dividend</div></div>
+      </a>
+      <a class="stock-row" href="https://finance.yahoo.com/quote/CNR.TO" target="_blank" rel="noopener">
+        <div class="stock-logo" style="background:#F1EFE8;color:#444441;">CNR</div>
+        <div class="stock-info"><div class="stock-name">CN Rail</div><div class="stock-why">Everything in Canada moves by rail. They own the tracks.</div></div>
+        <div class="stock-right"><div class="stock-ticker">TSX</div><div class="stock-tag tag-canada">Canadian</div></div>
+      </a>
+      <a class="stock-row" href="https://finance.yahoo.com/quote/BAM.TO" target="_blank" rel="noopener">
+        <div class="stock-logo" style="background:var(--blue-bg);color:var(--blue-dark);">BAM</div>
+        <div class="stock-info"><div class="stock-name">Brookfield Asset Management</div><div class="stock-why">Manages billions in real assets. Canada's answer to Berkshire.</div></div>
+        <div class="stock-right"><div class="stock-ticker">TSX</div><div class="stock-tag tag-growth">Growth</div></div>
+      </a>
+      <a class="stock-row" href="https://finance.yahoo.com/quote/XIU.TO" target="_blank" rel="noopener">
+        <div class="stock-logo" style="background:var(--purple-bg);color:var(--purple-text);">XIU</div>
+        <div class="stock-info"><div class="stock-name">iShares S&P/TSX 60 (XIU)</div><div class="stock-why">Top 60 Canadian companies in one fund. Simple, diversified, Canadian.</div></div>
+        <div class="stock-right"><div class="stock-ticker">TSX</div><div class="stock-tag tag-index">Index</div></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="cta-strip">
+    <div class="cta-text">See your future
+      <span>What does $75/month become by age 65?</span>
+    </div>
+    <button class="cta-btn" onclick="calcFuture()">Show the numbers</button>
+  </div>
+
+  <div class="future-result" id="future-result">
+    <div class="future-title">Starting at 15 vs. waiting until 25 — at $75/month, 8% return</div>
+    <div class="future-grid" id="future-grid"></div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <div class="footer">
+    This tracker is for educational purposes. All investing involves risk.<br>
+    Past returns do not guarantee future results. Talk to a licensed advisor before investing.<br><br>
+    Made with love — because your future matters.
+  </div>
+
+</div>
+
+<script>
+let totalInvested = 0;
+let monthsActive = 0;
+let matchMonths = 0;
+let isMatching = false;
+let monthlyAmt = 25;
+const unlockedSet = new Set();
+
+const bonusDefs = [
+  { id: 'm1',       label: 'First deposit',   amt: 0  },
+  { id: 'm-deploy', label: '45-day deploy',   amt: 10 },
+  { id: 'm2',       label: 'Reach $100',      amt: 10 },
+  { id: 'm3',       label: '3-month match',   amt: 20 },
+  { id: 'm4',       label: 'Reach $250',      amt: 25 },
+  { id: 'm6',       label: 'Teach someone',   amt: 20 },
+  { id: 'm7',       label: 'Reach $500',      amt: 50 },
+];
+
+function buildBonusTally() {
+  const grid = document.getElementById('bt-grid');
+  grid.innerHTML = bonusDefs.map(b => `
+    <div class="bt-box ${unlockedSet.has(b.id) && b.amt > 0 ? 'earned' : ''}">
+      <div class="bt-name">${b.label}</div>
+      <div class="bt-amt">${b.amt > 0 ? (unlockedSet.has(b.id) ? '+$' + b.amt : '$' + b.amt) : '—'}</div>
+    </div>`).join('');
+  const total = bonusDefs.filter(b => unlockedSet.has(b.id)).reduce((s, b) => s + b.amt, 0);
+  document.getElementById('bt-total').textContent = '$' + total;
+  const earned = bonusDefs.filter(b => unlockedSet.has(b.id) && b.amt > 0).length;
+  const possible = bonusDefs.filter(b => b.amt > 0).length;
+  document.getElementById('bt-sub').textContent = earned === 0
+    ? 'Complete milestones to unlock bonus cash.'
+    : earned + ' of ' + possible + ' bonuses earned. Keep going!';
+}
+
+function updateCashCalc() {
+  const val = parseFloat(document.getElementById('portfolio-val').value) || 0;
+  const res = document.getElementById('cm-result');
+  if (!val || val <= 0) {
+    res.innerHTML = 'Enter your total portfolio value above to see your cash limit.';
+    return;
+  }
+  const limit = (val * 0.4).toFixed(2);
+  const mustInvest = (val * 0.6).toFixed(2);
+  res.innerHTML = `Keep your cash under <strong>$${limit}</strong> (40% of $${parseFloat(val).toLocaleString('en-CA', {minimumFractionDigits:2,maximumFractionDigits:2})}).<br><span style="font-size:11px;opacity:0.85;">At least <strong>$${mustInvest}</strong> must be in stocks right now.</span>`;
+}
+
+function setMatch(yes) {
+  isMatching = yes;
+  monthlyAmt = yes ? 75 : 25;
+  document.getElementById('btn-yes').className = 'toggle-btn' + (yes ? ' active' : '');
+  document.getElementById('btn-no').className = 'toggle-btn' + (!yes ? ' active' : '');
+  document.getElementById('this-month').textContent = '$' + monthlyAmt;
+  const slider = document.getElementById('extra-slider');
+  const label = document.getElementById('extra-label');
+  const amtLabel = document.getElementById('extra-out');
+  const hint = document.getElementById('deploy-hint');
+  if (yes) {
+    slider.disabled = false;
+    label.className = 'deploy-label';
+    amtLabel.className = 'dep-amt';
+    hint.style.display = 'none';
+  } else {
+    slider.disabled = true;
+    slider.value = 0;
+    amtLabel.textContent = '$0';
+    label.className = 'deploy-label muted';
+    amtLabel.className = 'dep-amt muted';
+    hint.style.display = 'block';
+  }
+}
+
+document.getElementById('extra-slider').addEventListener('input', function() {
+  document.getElementById('extra-out').textContent = '$' + this.value;
+});
+
+function unlockMilestone(id) {
+  const el = document.getElementById(id);
+  if (!el || unlockedSet.has(id)) return;
+  unlockedSet.add(id);
+  el.className = 'milestone unlocked';
+  el.querySelector('.m-icon').textContent = '★';
+  el.querySelector('.m-icon').className = 'm-icon done';
+  const r = el.querySelector('.m-reward');
+  const def = bonusDefs.find(b => b.id === id);
+  r.textContent = def && def.amt > 0 ? '+$' + def.amt + ' earned!' : 'Unlocked';
+  r.className = 'm-reward';
+  buildBonusTally();
+}
+
+function activateMilestone(id, label) {
+  const el = document.getElementById(id);
+  if (!el || unlockedSet.has(id)) return;
+  el.className = 'milestone';
+  const icon = el.querySelector('.m-icon');
+  icon.textContent = label || '→';
+  icon.className = 'm-icon next';
+  icon.style.fontSize = label && label.length > 2 ? '10px' : '13px';
+}
+
+function addMonth() {
+  const extra = isMatching ? parseInt(document.getElementById('extra-slider').value) : 0;
+  totalInvested += monthlyAmt + extra;
+  monthsActive += 1;
+  if (isMatching) matchMonths += 1;
+  updateUI();
+}
+
+function updateUI() {
+  document.getElementById('total-invested').textContent = '$' + totalInvested;
+  document.getElementById('months-active').textContent = monthsActive;
+  document.getElementById('this-month').textContent = '$' + monthlyAmt;
+  const thresholds = [100, 250, 500];
+  let next = thresholds.find(t => totalInvested < t) || 500;
+  document.getElementById('next-bonus').textContent = totalInvested >= 500 ? 'Done!' : '$' + next;
+  let prev = next === 100 ? 0 : next === 250 ? 100 : 250;
+  let pct = totalInvested <= 0 ? 0 : totalInvested >= 500 ? 100 : Math.min(100, Math.round(((totalInvested - prev) / (next - prev)) * 100));
+  document.getElementById('pbar').style.width = pct + '%';
+  document.getElementById('pl-left').textContent = '$' + prev;
+  document.getElementById('pl-right').textContent = '$' + (totalInvested >= 500 ? 500 : next);
+  document.getElementById('pl-mid').textContent = '$' + totalInvested + ' of $' + (totalInvested >= 500 ? 500 : next);
+  if (monthsActive >= 1) unlockMilestone('m1');
+  if (monthsActive >= 2) unlockMilestone('m-deploy');
+  if (totalInvested >= 100) unlockMilestone('m2');
+  if (matchMonths >= 3) unlockMilestone('m3');
+  else if (matchMonths >= 1) activateMilestone('m3', matchMonths + '/3');
+  if (totalInvested >= 250) unlockMilestone('m4');
+  else if (totalInvested >= 100) activateMilestone('m4');
+  if (totalInvested >= 500) unlockMilestone('m7');
+  else if (totalInvested >= 250) activateMilestone('m7');
+}
+
+function fmtK(n) {
+  if (n >= 1000000) return '$' + (n/1000000).toFixed(2) + 'M';
+  if (n >= 1000) return '$' + Math.round(n/1000) + 'K';
+  return '$' + Math.round(n);
+}
+
+function calcPortfolio(monthly, rate, startAge, targetAge) {
+  if (targetAge < startAge) return 0;
+  const r = rate / 100 / 12;
+  const n = (targetAge - startAge) * 12;
+  return Math.round(monthly * ((Math.pow(1 + r, n) - 1) / r) * (1 + r));
+}
+
+function calcFuture() {
+  const monthly = 75, rate = 8;
+  const milestones = [20, 30, 40, 65];
+  const grid = document.getElementById('future-grid');
+  grid.innerHTML = milestones.map(age => {
+    const early = calcPortfolio(monthly, rate, 15, age);
+    const late = calcPortfolio(monthly, rate, 25, age);
+    const diff = early - late;
+    return `<div class="future-card">
+      <div class="future-age">Age ${age}</div>
+      <div class="future-early">${fmtK(early)}</div>
+      <div class="future-late">${age < 25 ? 'Waiter: not started' : 'Waiter: ' + fmtK(late)}</div>
+      ${diff > 0 ? '<div class="future-gap">+' + fmtK(diff) + ' more</div>' : ''}
+    </div>`;
+  }).join('');
+  document.getElementById('future-result').className = 'future-result visible';
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.stock-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.stock-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  const map = { safe: 0, brands: 1, canada: 2 };
+  document.querySelectorAll('.stock-tab')[map[tab]].classList.add('active');
+}
+
+buildBonusTally();
+setMatch(false);
+updateUI();
+</script>
+</body>
+</html>
